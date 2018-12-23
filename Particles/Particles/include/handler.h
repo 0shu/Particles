@@ -12,6 +12,7 @@ private:
 	float m_fInteractionForce;
 	float m_fLastTime = 0;
 	Button buttons[4];
+	sf::Vector2f m_viewSize;
 
 	Particle m_parti[g_uiPartNum];
 	bool m_bClicked;
@@ -28,4 +29,5 @@ public:
 	void reset();
 	void click(sf::Vector2i pos, bool down);
 	void passFont(sf::Font& font);
+	void setSize(sf::Vector2f size);
 };

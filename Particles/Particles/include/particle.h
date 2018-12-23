@@ -25,7 +25,7 @@ public:
 	void setPosition(sf::Vector2f pos);
 	void setMass(float mass);
 	void setColor(sf::Color col);
-	void setBounds(sf::Vector2f bounds);
+	void setBounds(sf::Vector2f bounds, float border);
 	void freeze();
 	sf::Vector2f getPosition() const;
 };

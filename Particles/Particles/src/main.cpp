@@ -4,6 +4,7 @@
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(800, 800), "10000 Particles!");
+	sf::Vector2u windowSize = window.getSize();
 
 	Handler myHandler;
 
@@ -17,6 +18,7 @@ int main()
 	if (!font.loadFromFile("Font-Regular.ttf")) std::cout << "Error loading font!\n";
 	myTick.passFont(font);
 	myHandler.passFont(font);
+	//myHandler.setSize(sf::Vector2f(windowSize.x, windowSize.y));
 
 	while (window.isOpen())
 	{
@@ -27,6 +29,13 @@ int main()
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed) window.close();
+			if (event.type == sf::Event::Resized)
+			{
+				// update the view to the new size of the window
+				sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+				window.setView(sf::View(visibleArea));
+				myHandler.setSize(sf::Vector2f(event.size.width, event.size.height));
+			}
 			//This bool changes depending if the click is down or up
 			if (event.type == sf::Event::MouseButtonPressed)
 			{

@@ -6,14 +6,15 @@ Handler::Handler()
 	m_bGravity = false;
 	m_bInteraction = false;
 	m_bBounds = false;
+	m_viewSize = sf::Vector2f(800, 800);
 
 	//We go through and set up each number
 	for (int i = 0; i < g_uiPartNum; i++)
 	{
-		m_parti[i].setPosition(sf::Vector2f(100 + rand() % 600, 100 + rand() % 600));
+		m_parti[i].setPosition(sf::Vector2f(50 + rand() % ((int)m_viewSize.x - 100), 50 + rand() % ((int)m_viewSize.y - 100)));
 		m_parti[i].setMass(1);
 		m_parti[i].setColor(sf::Color(rand() % 20, rand() % 200, 200 + rand() % 55, 255));
-		m_parti[i].setBounds(sf::Vector2f(50, 750));
+		m_parti[i].setBounds(m_viewSize, 50);
 	}
 
 	buttons[0].setup(sf::IntRect(100, 10, 75, 35), "Bounds");
@@ -87,10 +88,10 @@ void Handler::reset()
 	for (int i = 0; i < g_uiPartNum; i++)
 	{
 		m_parti[i].freeze();
-		m_parti[i].setPosition(sf::Vector2f(100 + rand() % 600, 100 + rand() % 600));
+		m_parti[i].setPosition(sf::Vector2f(50 + rand() % ((int)m_viewSize.x -100), 50 + rand() % ((int)m_viewSize.y - 100)));
 		m_parti[i].setMass(1);
 		m_parti[i].setColor(sf::Color(rand() % 20, rand() % 200, 200 + rand() % 55, 255));
-		m_parti[i].setBounds(sf::Vector2f(50, 750));
+		m_parti[i].setBounds(m_viewSize, 50);
 	}
 }
 
@@ -131,5 +132,14 @@ void Handler::passFont(sf::Font& font)
 	for (int i = 0; i < 4; i++)
 	{
 		buttons[i].passFont(font);
+	}
+}
+
+void Handler::setSize(sf::Vector2f size)
+{
+	m_viewSize = size;
+	for (int i = 0; i < g_uiPartNum; i++)
+	{
+		m_parti[i].setBounds(m_viewSize, 50);
 	}
 }

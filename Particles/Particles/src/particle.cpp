@@ -48,10 +48,10 @@ void Particle::setColor(sf::Color col)
 }
 
 //Gives the particle a bounding box
-void Particle::setBounds(sf::Vector2f bounds)
+void Particle::setBounds(sf::Vector2f bounds, float border)
 {
-	m_minBound.x = bounds.x; m_minBound.y = bounds.x;
-	m_maxBound.x = bounds.y; m_maxBound.y = bounds.y;
+	m_minBound.x = border; m_minBound.y = border;
+	m_maxBound.x = bounds.x - border; m_maxBound.y = bounds.y - border;
 }
 
 //Adds force to the particle on a given vector
