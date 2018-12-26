@@ -12,8 +12,8 @@ Handler::Handler()
 	for (int i = 0; i < g_uiPartNum; i++)
 	{
 		m_parti[i].setPosition(sf::Vector2f(50 + rand() % ((int)m_viewSize.x - 100), 50 + rand() % ((int)m_viewSize.y - 100)));
-		m_parti[i].setMass(1);
-		m_parti[i].setColor(sf::Color(rand() % 20, rand() % 200, 200 + rand() % 55, 255));
+		m_parti[i].setMass(2);
+		m_parti[i].setColor(sf::Color(rand() % 20, rand() % 20,  rand() % 55, 255));
 		m_parti[i].setBounds(m_viewSize, 50);
 	}
 
@@ -90,7 +90,6 @@ void Handler::reset()
 		m_parti[i].freeze();
 		m_parti[i].setPosition(sf::Vector2f(50 + rand() % ((int)m_viewSize.x -100), 50 + rand() % ((int)m_viewSize.y - 100)));
 		m_parti[i].setMass(1);
-		m_parti[i].setColor(sf::Color(rand() % 20, rand() % 200, 200 + rand() % 55, 255));
 		m_parti[i].setBounds(m_viewSize, 50);
 	}
 }

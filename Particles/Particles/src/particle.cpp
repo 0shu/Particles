@@ -7,8 +7,8 @@ Particle::Particle()
 	m_velocity.x = 0; m_velocity.y = 0;
 	m_acceleration.x = 0; m_acceleration.y = 0;
 	m_body = sf::VertexArray(sf::Points, 1);
-	m_mass = 200;
-	m_drag = 0.001;
+	m_mass = 50;
+	m_drag = 0.002;
 	//puts up a bounding box
 	m_minBound = sf::Vector2f(200, 200);
 	m_maxBound = sf::Vector2f(600, 600);

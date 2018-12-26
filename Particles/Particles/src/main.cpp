@@ -20,6 +20,22 @@ int main()
 	myHandler.passFont(font);
 	//myHandler.setSize(sf::Vector2f(windowSize.x, windowSize.y));
 
+	sf::Text text;
+	text.setString("flock of");
+	text.setStyle(sf::Text::Bold);
+	text.setCharacterSize(100);
+	text.setFillColor(sf::Color(255, 255, 255, 255));
+	text.setPosition(100, 300);
+	text.setFont(font);
+
+	sf::Text text2;
+	text2.setString("birds");
+	text2.setStyle(sf::Text::Italic);
+	text2.setCharacterSize(100);
+	text2.setFillColor(sf::Color(90, 90, 125, 255));
+	text2.setPosition(470, 300);
+	text2.setFont(font);
+
 	while (window.isOpen())
 	{
 		fElapsedTime = timer.getElapsedTime().asSeconds() - fLastTime;
@@ -59,8 +75,10 @@ int main()
 		myTick.update(timer.getElapsedTime().asMilliseconds());
 
 		//DRAWING HERE:
-		window.clear();
+		window.clear(sf::Color(120, 200, 255, 255));
+		window.draw(text2);
 		window.draw(myHandler);
+		window.draw(text);
 		window.draw(myTick);
 		window.display();
 	}
