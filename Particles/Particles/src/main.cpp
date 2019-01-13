@@ -3,10 +3,11 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 800), "10000 Particles!");
+	sf::RenderWindow window(sf::VideoMode(800, 650), "10000 Particles!");
 	sf::Vector2u windowSize = window.getSize();
 
-	Handler myHandler;
+	Handler myHandler(sf::Vector2f(windowSize.x, windowSize.y));
+	myHandler.setColors(sf::Color(0,0,0,235), sf::Color(10,10,10,20));
 
 	//We create timers and the tickhealth checker
 	sf::Clock timer;
@@ -18,8 +19,7 @@ int main()
 	if (!font.loadFromFile("Font-Regular.ttf")) std::cout << "Error loading font!\n";
 	myTick.passFont(font);
 	myHandler.passFont(font);
-	//myHandler.setSize(sf::Vector2f(windowSize.x, windowSize.y));
-
+	
 	while (window.isOpen())
 	{
 		fElapsedTime = timer.getElapsedTime().asSeconds() - fLastTime;
@@ -59,7 +59,7 @@ int main()
 		myTick.update(timer.getElapsedTime().asMilliseconds());
 
 		//DRAWING HERE:
-		window.clear();
+		window.clear(sf::Color(150, 130, 150, 255));
 		window.draw(myHandler);
 		window.draw(myTick);
 		window.display();

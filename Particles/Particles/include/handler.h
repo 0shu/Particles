@@ -13,6 +13,10 @@ private:
 	float m_fLastTime = 0;
 	Button buttons[4];
 	sf::Vector2f m_viewSize;
+	float m_fBorder = 50;
+	sf::Color m_baseColor;
+	sf::Color m_variationColor;
+	float m_fMass = 1;
 
 	Particle m_parti[g_uiPartNum];
 	bool m_bClicked;
@@ -21,7 +25,7 @@ private:
 	bool m_bBounds;
 	sf::Vector2i avg;
 public:
-	Handler();
+	Handler(sf::Vector2f window);
 	void simpleUpdate(float clockTime);
 	void complexUpdate(sf::Vector2i pos);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -30,4 +34,6 @@ public:
 	void click(sf::Vector2i pos, bool down);
 	void passFont(sf::Font& font);
 	void setSize(sf::Vector2f size);
+	void setBorder(float border);
+	void setColors(sf::Color base, sf::Color variation);
 };

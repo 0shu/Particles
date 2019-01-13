@@ -1,22 +1,26 @@
 #include "handler.h"
 
-Handler::Handler()
+Handler::Handler(sf::Vector2f window)
 {
+	//Firstly we ensure the viewsize is correct
+	m_viewSize = window;
+
+	//We set the variables that determine the particles
+	m_fMass = 1;
+	m_fBorder = 50;
+	m_baseColor = sf::Color(0, 0, 200, 255);
+	m_variationColor = sf::Color(20, 200, 55, 1);
+
+	//We go through and set up each number
+	reset();
+
+	//We set the logic states for the buttons
 	m_bClicked = false;
 	m_bGravity = false;
 	m_bInteraction = false;
 	m_bBounds = false;
-	m_viewSize = sf::Vector2f(800, 800);
 
-	//We go through and set up each number
-	for (int i = 0; i < g_uiPartNum; i++)
-	{
-		m_parti[i].setPosition(sf::Vector2f(50 + rand() % ((int)m_viewSize.x - 100), 50 + rand() % ((int)m_viewSize.y - 100)));
-		m_parti[i].setMass(1);
-		m_parti[i].setColor(sf::Color(rand() % 20, rand() % 200, 200 + rand() % 55, 255));
-		m_parti[i].setBounds(m_viewSize, 50);
-	}
-
+	//Finally we set up the buttons so they all work correctly
 	buttons[0].setup(sf::IntRect(100, 10, 75, 35), "Bounds");
 	buttons[1].setup(sf::IntRect(200, 10, 75, 35), "Gravity");
 	buttons[2].setup(sf::IntRect(300, 10, 75, 35), "Swarm");
@@ -26,6 +30,7 @@ Handler::Handler()
 
 void Handler::simpleUpdate(float clockTime)
 {
+	//Does a simple update to move the particle positions
 	float elapsedTime = clockTime - m_fLastTime;
 	for (int i = 0; i < g_uiPartNum; i++)
 	{
@@ -37,6 +42,7 @@ void Handler::simpleUpdate(float clockTime)
 
 void Handler::complexUpdate(sf::Vector2i pos)
 {
+	//Does a complex update which figures out the new physics positions
 	avg = sf::Vector2i(0, 0);
 	for (int i = 0; i < g_uiPartNum; i++)
 	{
@@ -73,10 +79,12 @@ void Handler::complexUpdate(sf::Vector2i pos)
 
 void Handler::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
+	//First we draw all the particles
 	for (int i = 0; i < g_uiPartNum; i++)
 	{
 		target.draw(m_parti[i], states);
 	}
+	//Then we draw all the buttons
 	for (int i = 0; i < 4; i++)
 	{
 		target.draw(buttons[i], states);
@@ -85,13 +93,33 @@ void Handler::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Handler::reset()
 {
+	//First we create any temporary variables
+	sf::Vector2f position;
+	sf::Color tempColor;
+
+
 	for (int i = 0; i < g_uiPartNum; i++)
 	{
+		//First we freeze stop the particle from moving
 		m_parti[i].freeze();
-		m_parti[i].setPosition(sf::Vector2f(50 + rand() % ((int)m_viewSize.x -100), 50 + rand() % ((int)m_viewSize.y - 100)));
-		m_parti[i].setMass(1);
-		m_parti[i].setColor(sf::Color(rand() % 20, rand() % 200, 200 + rand() % 55, 255));
-		m_parti[i].setBounds(m_viewSize, 50);
+
+		//Next we set up the position as a random place on the screen within the border.
+		position.x = m_fBorder + rand() % ((int)(m_viewSize.x - (2 * m_fBorder)));
+		position.y = m_fBorder + rand() % ((int)(m_viewSize.y - (2 * m_fBorder)));
+		m_parti[i].setPosition(position);
+
+		//Then we set the mass to whatever assigned value it should be
+		m_parti[i].setMass(m_fMass);
+
+		//Then we set the color to it's value
+		tempColor.r = m_baseColor.r + rand() % m_variationColor.r;
+		tempColor.g = m_baseColor.g + rand() % m_variationColor.g;
+		tempColor.b = m_baseColor.b + rand() % m_variationColor.b;
+		tempColor.a = m_baseColor.a + rand() % m_variationColor.a;
+		m_parti[i].setColor(tempColor);
+
+		//Then we give it the correct border size;
+		m_parti[i].setBounds(m_viewSize, m_fBorder);
 	}
 }
 
@@ -140,6 +168,32 @@ void Handler::setSize(sf::Vector2f size)
 	m_viewSize = size;
 	for (int i = 0; i < g_uiPartNum; i++)
 	{
-		m_parti[i].setBounds(m_viewSize, 50);
+		m_parti[i].setBounds(m_viewSize, m_fBorder);
 	}
+}
+
+void Handler::setBorder(float border)
+{
+	m_fBorder = border;
+	for (int i = 0; i < g_uiPartNum; i++)
+	{
+		m_parti[i].setBounds(m_viewSize, m_fBorder);
+	}
+}
+
+void Handler::setColors(sf::Color base, sf::Color variation)
+{
+	m_baseColor = base;
+	m_variationColor = variation;
+	sf::Color tempColor;
+
+	for (int i = 0; i < g_uiPartNum; i++)
+	{
+		tempColor.r = m_baseColor.r + rand() % m_variationColor.r;
+		tempColor.g = m_baseColor.g + rand() % m_variationColor.g;
+		tempColor.b = m_baseColor.b + rand() % m_variationColor.b;
+		tempColor.a = m_baseColor.a + rand() % m_variationColor.a;
+		m_parti[i].setColor(tempColor);
+	}
+
 }
